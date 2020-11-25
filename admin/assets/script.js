@@ -1,23 +1,43 @@
-$("#password").keypress(function (e) { 
+var pass='';
+var repass='';
+$("#password").keyup(function (e) { 
     let uppercase = /[A-Z]/g;
     let numbers = /[0-9]/g;
-    let values = $("#password").val();
-    if(values.match(uppercase)){
-        $("#error").val("");
+    pass = $(this).val();
+    if(pass.match(uppercase) || pass.length==0){
+        $("#error1").text("");
     }else{
-        $("#error").val("Password harus mengandung Uppercase");
+        $("#error1").text("Password harus mengandung Uppercase");
     }
 
-    if(values.match(numbers)){
-        $("#error").val("");
+    if(pass.match(numbers) || pass.length==0){
+        $("#error2").text("");
         
     }else{
-       $("#error").val("Password harus mengandung Angka");
+       $("#error2").text("Password harus mengandung Angka");
     }
 
-    if(values.length <= 8){
-        $("#error").val("Password harus lebih dari sama dengan 8");
-    }else{
-         $("#error").val("");
+    if (pass.length == 0) {
+        $("#error3").text("");
+    } else {
+        if (pass.length <= 8) {
+            $("#error3").text("Password harus lebih dari sama dengan 8");
+        } else {
+            $("#error3").text("");
+        }
     }
+    checkRePass();
 });
+
+$("#re-pass").keyup(function (e) { 
+    checkRePass();
+});
+
+function checkRePass() { 
+    repass = $("#re-pass").val();
+    if(repass!=pass){
+        $("#error4").text("Password tidak sama");
+    }else{
+         $("#error4").text("");
+    }
+ }
