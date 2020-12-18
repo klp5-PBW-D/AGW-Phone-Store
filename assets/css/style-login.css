@@ -80,4 +80,6 @@ body {
 
 .error {
   margin: 10px;
+  color: red;
+  font-style: italic;
 }

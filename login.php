@@ -1,3 +1,30 @@
+<?php
+ require('init.php');
+
+    // do login
+    if (isset($_POST['submit'])) {
+
+        // ambil variabel dari post
+        $username = getUserPass($_POST['username']);
+        $password = getUserPass($_POST['password']);
+
+        // check login user pass
+        $login = checkLogin($username, $password);
+        if ($login!=false) {
+            $_SESSION['login']=true;
+            $_SESSION['id']=$login['id'];
+            $_SESSION['username']=$login['username'];
+            $_SESSION['role']=$login['role'];
+            
+            header("Location: dashboard/index.php");
+        } else {
+            $error = true;
+        }
+    }
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,12 +44,14 @@
 <body>
     <div class="form-signin">
         <h1 class="title my-3">AGW Phone Store</h1>
-        <form action="admin/index.html" method="get">
+        <form method="post">
             <ul>
                 <li>
                     <img src="assets/img/agw.jpg" class="img-thumbnail border-0">
                 </li>
-                <!-- <p class="error">Username / Password Salah</p> -->
+                <?php if (isset($error)) : ?>
+                <p class="error">Username / Password Salah</p>
+                <?php endif; ?>
                 <li>
                     <label for="username" class="sr-only">Username</label>
                     <input type="text" name="username" id="username" class="form-control" placeholder="Username"

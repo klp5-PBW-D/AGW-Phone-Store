@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGW - Dashboard</title>
+
+    <link rel="shortcut icon" href="../assets/img/agw-icon.ico" type="image/x-icon">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/all.css">
+    <link rel="stylesheet" href="../assets/css/style-dashboard.css">
+</head>
+
+<body>
+    <header>
+        <div class="section-header-navbar">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">AGW Phone Store</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Dashboard</a>
+                        </li>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Akun</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Hi, Admin</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+
+    <div class="container mt-3">
+        <h4 class="text-center">Data User</h4>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Tambah
+            Akun</button>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Tambah Akun</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="username" class="col-form-label">Username : </label>
+                                <input type="text" class="form-control" name="username" id="username"
+                                    autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="col-form-label">Password : </label>
+                                <input type="password" class="form-control" name="password" id="password">
+                                <p id="error1" class="error"></p>
+                                <p id="error2" class="error"></p>
+                                <p id="error3" class="error"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="re-pass" class="col-form-label">Re-type Password : </label>
+                                <input type="password" class="form-control" name="re-pass" id="re-pass">
+                                <p id="error4" class="error"></p>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Send message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jquery -->
+    <script src="../assets/vendor/jquery/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="../assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Custom -->
+    <script src="../assets/js/script.js"></script>
+</body>
+
+</html>
