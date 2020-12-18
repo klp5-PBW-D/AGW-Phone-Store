@@ -1,5 +1,7 @@
 <?php
 require('header.php');
+require('logic/supplier-act.php');
+
 ?>
 <!-- CONTENT-START -->
 <h3>Dashboard</h3>

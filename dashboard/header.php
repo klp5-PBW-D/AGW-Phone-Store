@@ -1,3 +1,11 @@
+<?php
+session_start();
+  if (!isset($_SESSION['login'])) {
+      header("Location: ../index.php");
+  }
+  $baseName = basename($_SERVER['PHP_SELF'], '.php');
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,19 +20,23 @@
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
     <!-- CSS -->
+    <link href="../assets/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/vendor/font-awesome/css/all.css">
     <link rel="stylesheet" href="../assets/css/style-dashboard.css">
+
+    <!-- SCRIPT -->
+    <script src="../assets/vendor/sweet-alert/sweetalert.min.js"></script>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light p-0 fixed-top shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light p-0 fixed-top shadow">
         <a class="navbar-brand col-sm-3 col-md-2 mr-0 bg-blue text-center" href="#">AGW PHONE STORE</a>
         <ul class="navbar-nav ml-auto mr-2">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
-                    <span class="mr-2 d-none d-lg-inline text-gray-600">Hai, demo</span>
+                    <span class="mr-2 d-none d-lg-inline text-gray-600">Hai, <?= $_SESSION['username'] ?></span>
                     <i class="fas fa-user"></i>
                 </a>
 
@@ -53,7 +65,7 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">
+                            <a class="nav-link <?= ($baseName=='index') ? 'active' : '' ?>" href="index.php">
                                 <i class="fas fa-home"></i>
                                 Dashboard <span class="sr-only">(current)</span>
                             </a>
@@ -65,7 +77,7 @@
                     </h6>
                     <ul class="nav flex-column mb-2">
                         <li class="nav-item">
-                            <a class="nav-link" href="penjualan.php">
+                            <a class="nav-link <?= ($baseName=='penjualan') ? 'active' : '' ?>" href="penjualan.php">
                                 <i class="fas fa-fw fa-chart-area"></i>
                                 <span>Entry Penjualan</span></a>
                         </li>
@@ -76,17 +88,17 @@
                     </h6>
                     <ul class="nav flex-column mb-2">
                         <li class="nav-item">
-                            <a class="nav-link" href="barang.php">
+                            <a class="nav-link <?= ($baseName=='barang') ? 'active' : '' ?>" href="barang.php">
                                 <i class="fas fa-fw fa-boxes"></i>
                                 <span>Data Barang</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="kategori.php">
+                            <a class="nav-link <?= ($baseName=='kategori') ? 'active' : '' ?>" href="kategori.php">
                                 <i class="fas fa-fw fa-clipboard-list"></i>
                                 <span>Data Kategori</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="supplier.php">
+                            <a class="nav-link <?= ($baseName=='supplier') ? 'active' : '' ?>" href="supplier.php">
                                 <i class="fas fa-fw fa-clipboard-list"></i>
                                 <span>Data Supplier</span></a>
                         </li>
@@ -97,7 +109,7 @@
                     </h6>
                     <ul class="nav flex-column mb-2">
                         <li class="nav-item">
-                            <a class="nav-link" href="user.php">
+                            <a class="nav-link <?= ($baseName=='user') ? 'active' : '' ?>" href="user.php">
                                 <i class="fas fa-fw fa-boxes"></i>
                                 <span>Data User</span></a>
                         </li>
@@ -105,4 +117,4 @@
                 </div>
             </nav>
             <div class="col-md-9 ml-sm-auto col-lg-10 px-4 content">
-                <div class="content-main">
+                <div class="content-main mb-5">

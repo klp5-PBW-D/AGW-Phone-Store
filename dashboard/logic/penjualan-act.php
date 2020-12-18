@@ -50,8 +50,7 @@ function hapus($id)
     return $hasil;
 }
 
-// ===============================================EDIT PENJUALAN
-
+// Edit Penjualan
 function getPenjualan($idPenjualan)
 {
     $getPenjualan = query("SELECT

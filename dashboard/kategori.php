@@ -1,8 +1,109 @@
 <?php
 require('header.php');
+require('logic/kategori-act.php');
+// Tambah Kategori
+if (isset($_POST['submitKategori'])) {
+    $hasil = tambahKategori($_POST);
+    if ($hasil>0) {
+        echo "
+            <script>
+                swal({
+                    title: 'Sukses',
+                    text: 'Data Berhasil Di Tambahkan',
+                    type: 'success',
+                    icon: 'success',
+                }).then(function() {
+                    window.location = 'kategori.php';
+                });
+            </script>
+        ";
+    } else {
+        echo "
+            <script>
+                swal({
+                    title: 'Gagal',
+                    text: 'Data Gagal Di tambahkan',
+                    type: 'error',
+                    icon: 'error',
+                }).then(function() {
+                    window.location = 'kategori.php';
+                });
+            </script>
+        ";
+    }
+}
+// Tambah Kategori End
+// Edit Kategori
+if (isset($_POST['submitEditKategori'])) {
+    $hasil = updateKategori($_POST);
+    if ($hasil>0) {
+        echo "
+            <script>
+                swal({
+                    title: 'Sukses',
+                    text: 'Data Berhasil Di Edit',
+                    type: 'success',
+                    icon: 'success',
+                }).then(function() {
+                    window.location = 'kategori.php';
+                });
+            </script>
+        ";
+    } else {
+        echo "
+            <script>
+                swal({
+                    title: 'Gagal',
+                    text: 'Data Gagal Di Edit',
+                    type: 'error',
+                    icon: 'error',
+                }).then(function() {
+                    window.location = 'kategori.php';
+                });
+            </script>
+        ";
+    }
+}
+
+// Edit Kategori End
+// Hapus Kategori
+if (isset($_GET['hapusKategori'])) {
+    $id = $_GET['hapusKategori'];
+    $hasil = hapusKategori($id);
+    if ($hasil>0) {
+        echo "
+                    <script>
+                        swal({
+                            title: 'Sukses',
+                            text: 'Data Berhasil Di Hapus',
+                            type: 'success',
+                            icon: 'success',
+                        }).then(function() {
+                            window.location = 'kategori.php';
+                        });
+                    </script>
+                    ";
+    } else {
+        echo "
+                    <script>
+                        swal({
+                            title: 'Gagal',
+                            text: 'Data Gagal Di Hapus',
+                            type: 'error',
+                            icon: 'error',
+                        }).then(function() {
+                            window.location = 'kategori.php';
+                        });
+                    </script>
+                    ";
+    }
+}
+// Hapus Kategori End
+
 ?>
 <!-- CONTENT-START -->
-<h3>Dashboard</h3>
+<?php if (!isset($_GET['editKategori'])) :?>
+<h3>Data Kategori</h3>
 <!-- Kategori -->
 <div class="row">
 	<div class="col-12">
@@ -34,7 +135,7 @@ require('header.php');
 								<td><?= $dk['name'] ?></td>
 								<td class="text-center">
 									<?php if ($dk['id']!=0) :?>
-									<a href="?editKategori=<?= $dk['id']?>" class="btn btn-warning disabled">
+									<a href="?editKategori=<?= $dk['id']?>" class="btn btn-warning">
 										<span class="text">Edit</span>
 									</a>
 									<a href="?hapusKategori=<?= $dk['id']?>" class="btn btn-danger"
@@ -71,7 +172,7 @@ require('header.php');
 					<div class="form-group">
 						<div class="form-group">
 							<label for="namaKategori" class="col-form-label">Nama Kategori</label>
-							<input type="text" class="form-control" name="namaKategori" id="namaKategori" required>
+							<input type="text" class="form-control" name="namaKategori" id="namaKategori" autocomplete="off" required>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -84,6 +185,34 @@ require('header.php');
 	</div>
 </div>
 <!-- Modal Tambah Kategori End -->
+<?php elseif (isset($_GET['editKategori'])) :?>
+<?php
+    $idEditKategori = $_GET['editKategori'];
+    $getKategori = getKategori($idEditKategori);
+?>
+<h3>Edit Kategori</h3>
+<div class="row">
+	<div class="col">
+		 <div class="card w-50 shadow-sm">
+		<div class="modal-body">
+				<form action="" method="post">
+					<input type="hidden" name="idKategori" value="<?=$getKategori['id']?>">
+					<div class="form-group">
+						<div class="form-group">
+							<label for="namaKategori" class="col-form-label">Nama Kategori</label>
+							<input type="text" class="form-control" name="namaKategori" id="namaKategori" value="<?= $getKategori['name']?>" autocomplete="off" required>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+						<button type="submit" name="submitEditKategori" class="btn btn-primary">Submit</button>
+					</div>
+				</form>
+			</div>
+</div>
+	</div>
+</div>
+<?php endif; ?>
 <!-- CONTENT-END -->
 <?php
 require('footer.php');

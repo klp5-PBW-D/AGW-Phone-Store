@@ -46,16 +46,11 @@ $dataBarang = query("SELECT
                         INNER JOIN suppliers b ON a.supplier_id = b.id
                         INNER JOIN categories c ON a.category_id = c.id
                         ORDER BY a.name;");
-
-// Data Supplier
-$dataSupplier = query("SELECT * FROM suppliers;");
-
-
+// =====================TAMBAH BARANG=========================
 // Data Kategori
 $dataKategori = query("SELECT * FROM categories;");
-
-
-// method
+// Data Supplier
+$dataSupplier = query("SELECT * FROM suppliers;");
 function tambahBarang($data)
 {
     global $conn;
@@ -80,49 +75,14 @@ function hapusBarang($id)
     $hasil = mysqli_affected_rows($conn);
     return $hasil;
 }
+// =====================TAMBAH BARANG END=========================
 
-function tambahKategori($data)
-{
-    global $conn;
-    $namaKategori = htmlspecialchars($data['namaKategori']);
-    $query = "INSERT INTO categories(name) VALUES ('$namaKategori');";
-    $result = mysqli_query($conn, $query) or var_dump(mysqli_error($conn));
-    $hasil = mysqli_affected_rows($conn);
-    return $hasil;
-}
 
-function hapusKategori($id)
-{
-    global $conn;
-    $result = mysqli_query($conn, "DELETE FROM categories WHERE id=$id");
-    $hasil = mysqli_affected_rows($conn);
-    return $hasil;
-}
-
-function tambahSupplier($data)
-{
-    global $conn;
-    $namaSupplier = htmlspecialchars($data['namaSupplier']);
-    $alamatSupplier = htmlspecialchars($data['alamatSupplier']);
-
-    $query = "INSERT INTO suppliers(name,address) VALUES ('$namaSupplier','$alamatSupplier');";
-    $result = mysqli_query($conn, $query) or var_dump(mysqli_error($conn));
-    $hasil = mysqli_affected_rows($conn);
-    return $hasil;
-}
-
-function hapusSupplier($id)
-{
-    global $conn;
-    $result = mysqli_query($conn, "DELETE FROM suppliers WHERE id=$id");
-    $hasil = mysqli_affected_rows($conn);
-    return $hasil;
-}
 
 // =====================EDIT BARANG=========================
 function getBarang($idBarang)
 {
-    $hai=query("SELECT
+    $data=query("SELECT
                     id,
                     name,
                     supplier_id,
@@ -134,7 +94,7 @@ function getBarang($idBarang)
                 WHERE
                     id = $idBarang
                 ")[0];
-    return $hai;
+    return $data;
 }
 
 function updateBarang($data)

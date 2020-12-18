@@ -1,8 +1,110 @@
 <?php
 require('header.php');
+require('logic/barang-act.php');
+
+// Submit Tambah Barang
+if (isset($_POST['submitBarang'])) {
+    $hasil = tambahBarang($_POST);
+    if ($hasil>0) {
+        echo "
+            <script>
+                swal({
+                    title: 'Sukses',
+                    text: 'Data Berhasil Di Tambahkan',
+                    type: 'success',
+                    icon: 'success',
+                }).then(function() {
+                    window.location = 'barang.php';
+                });
+            </script>
+        ";
+    } else {
+        echo "
+            <script>
+                swal({
+                    title: 'Gagal',
+                    text: 'Data Gagal Di tambahkan',
+                    type: 'error',
+                    icon: 'error',
+                }).then(function() {
+                    window.location = 'barang.php';
+                });
+            </script>
+        ";
+    }
+}
+// Submit Tambah Barang END
+// Submit Edit Barang
+if (isset($_POST['submitEditBarang'])) {
+    $hasil = updateBarang($_POST);
+    if ($hasil>0) {
+        echo "
+            <script>
+                swal({
+                    title: 'Sukses',
+                    text: 'Data Berhasil Di Edit',
+                    type: 'success',
+                    icon: 'success',
+                }).then(function() {
+                    window.location = 'barang.php';
+                });
+            </script>
+        ";
+    } else {
+        echo "
+            <script>
+                swal({
+                    title: 'Gagal',
+                    text: 'Data Gagal Di Edit',
+                    type: 'error',
+                    icon: 'error',
+                }).then(function() {
+                    window.location = 'barang.php';
+                });
+            </script>
+        ";
+    }
+}
+// Submit Edit Barang End
+// Hapus Barang
+if (isset($_GET['hapus'])) {
+    $id = $_GET['hapus'];
+    $hasil = hapusBarang($id);
+    if ($hasil>0) {
+        echo "
+                    <script>
+                        swal({
+                            title: 'Sukses',
+                            text: 'Data Berhasil Di Hapus',
+                            type: 'success',
+                            icon: 'success',
+                        }).then(function() {
+                            window.location = 'barang.php';
+                        });
+                    </script>
+                    ";
+    } else {
+        echo "
+                    <script>
+                        swal({
+                            title: 'Gagal',
+                            text: 'Data Gagal Di Hapus',
+                            type: 'error',
+                            icon: 'error',
+                        }).then(function() {
+                            window.location = 'barang.php';
+                        });
+                    </script>
+                    ";
+    }
+}
+
+// Hapus Barang END
 ?>
+
 <!-- CONTENT-START -->
-<h3>Dashboard</h3>
+<?php if (!isset($_GET['editBarang'])) :?>
+<h3>Data Barang</h3>
 <!-- Content Row -->
 <div class="row">
 	<!-- Earnings (Monthly) Card Example -->
@@ -82,9 +184,7 @@ require('header.php');
 </div>
 
 <!-- Content Row -->
-
 <div class="row">
-
 	<!-- Area Table Barang -->
 	<div class="col">
 		<button type="button" class="btn btn-primary mb-3 p-2 shadow-sm" data-toggle="modal"
@@ -161,7 +261,7 @@ require('header.php');
 					</div>
 					<div class="form-group">
 						<label for="namaBarang" class="col-form-label">Nama Barang</label>
-						<input type="text" class="form-control" name="namaBarang" id="namaBarang" required>
+						<input type="text" class="form-control" name="namaBarang" id="namaBarang" autocomplete="off" required>
 					</div>
 					<div class="form-row">
 						<div class="form-group col-6">
@@ -191,7 +291,7 @@ require('header.php');
 						<div class="form-group col-8">
 							<label for="hargaBarang" class="col-form-label">Harga Modal /
 								pcs</label>
-							<input type="text" class="form-control" name="hargaModal" id="hargaBarang" required>
+							<input type="text" class="form-control" name="hargaModal" id="hargaBarang" autocomplete="off" required>
 						</div>
 						<div class="form-group col-4">
 							<label for="jumlahBarang" class="col-form-label">Jumlah
@@ -210,6 +310,66 @@ require('header.php');
 	</div>
 </div>
 <!-- Modal Tambah Barang END -->
+<?php elseif (isset($_GET['editBarang']))  :?>
+<?php
+    $idEditBarang = $_GET['editBarang'];
+    $getBarang = getBarang($idEditBarang);
+?>
+<h3>Edit Barang</h3>
+	<div class="row justify-content-center">
+        <div class="col">
+            <div class="card w-50 shadow-sm">
+                <div class="card-body">
+                    <form action="" method="post">
+                         <div class="form-group">
+                            <label for="namaBarang" class="col-form-label">Nama Barang</label>
+                            <input type="hidden" name="idBarang" value="<?=$getBarang['id']?>">
+                            <input type="text" value="<?=$getBarang['name']?>" class="form-control" name="namaBarang" id="namaBarang">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-6">
+                                <label for="kategoriBarang" class="col-form-label">Kategori Barang</label>
+                                <select class="form-control" id="kategoriBarang" name="kategoriBarang" required>
+                                    <?php foreach ($dataKategori as $dk) :?>
+                                    <option value="<?=$dk['id']?>" <?php if ($dk['id']==$getBarang['category_id']) {
+    echo "selected";
+} ?>><?= $dk['name'] ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="supplierBarang" class="col-form-label">Supplier Barang</label>
+                                <select class="form-control" id="supplierBarang" name="supplierBarang" required>
+                                    <option value="" disabled selected hidden>Pilih Supplier Barang ...</option>
+                                    <?php foreach ($dataSupplier as $ds) :?>
+                                    <option value="<?=$ds['id']?>" <?php if ($ds['id']==$getBarang['supplier_id']) {
+    echo "selected";
+}?>
+><?= $ds['name'] ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-8">
+                                 <label for="hargaBarang" class="col-form-label">Harga Modal / pcs</label>
+                                 <input type="text" class="form-control" name="hargaModal" id="hargaBarang" value="<?=$getBarang['capital_price']?>">
+                            </div>
+                            <div class="form-group col-4">
+                                 <label for="jumlahBarang" class="col-form-label">Jumlah Barang</label>
+                                 <input type="number" class="form-control" name="jumlahBarang" id="jumlahBarang" value="<?=$getBarang['stock']?>">
+                            </div>                
+                        </div>
+                        <div class="modal-footer mt-4">
+                            <a href="penjualan.php"><button type="button" class="btn btn-secondary">Cancel</button></a>
+                            <button type="submit" name="submitEditBarang" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+	</div>
+	<?php endif; ?>
 <!-- CONTENT-END -->
 <?php
 require('footer.php');

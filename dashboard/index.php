@@ -1,5 +1,6 @@
 <?php
-require('header.php')
+require('header.php');
+require('logic/index-act.php');
 ?>
 <!-- CONTENT-START -->
 <h3>Dashboard</h3>
