@@ -22,7 +22,7 @@ require('../function.php');
 
 // FORM TAMBAH DATA PENJUALAN
 // Ambil Nama Produk
-    $produk = query("SELECT id,name,stock FROM products ORDER BY name");
+    $produk = query("SELECT id,name,stock FROM products WHERE stock>0 ORDER BY name");
 
 // method
 function tambahDataPenjualan($data)
