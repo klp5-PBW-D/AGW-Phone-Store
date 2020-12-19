@@ -2,10 +2,10 @@
 
 // -----------------------Global Function Query-----------------------
     // memulai koneksi database
-    define("DB_HOST", "103.145.226.90");
-    define("DB_USER", "aangpsco_projectpbw");
-    define("DB_PASSWORD", "projectpbw");
-    define("DB_DATABASE", "aangpsco_projectpbw");
+    define("DB_HOST", "153.92.10.74");
+    define("DB_USER", "u5030462_project-pbw");
+    define("DB_PASSWORD", "project-pbw");
+    define("DB_DATABASE", "u5030462_project-pbw");
 
     $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE);
 
