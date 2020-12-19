@@ -11,7 +11,7 @@ $totalPemasukan = number_format(intval($pemasukan['new']));
 
 // Total Laba
 $laba = query("SELECT 
-                    ( b.quantity * b.each_price )-( a.capital_price * b.quantity ) AS new 
+                    SUM(( b.quantity * b.each_price )-( a.capital_price * b.quantity )) AS new 
                 FROM
                     products a
                     INNER JOIN orders b ON a.id = b.product_id;")[0];
