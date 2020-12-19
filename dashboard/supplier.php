@@ -1,9 +1,108 @@
 <?php
 require('header.php');
 require('logic/supplier-act.php');
+// Tambah Supplier
+if (isset($_POST['submitSupplier'])) {
+    $hasil = tambahSupplier($_POST);
+    if ($hasil>0) {
+        echo "
+            <script>
+                swal({
+                    title: 'Sukses',
+                    text: 'Data Berhasil Di Tambahkan',
+                    type: 'success',
+                    icon: 'success',
+                }).then(function() {
+                    window.location = 'supplier.php';
+                });
+            </script>
+        ";
+    } else {
+        echo "
+            <script>
+                swal({
+                    title: 'Gagal',
+                    text: 'Data Gagal Di tambahkan',
+                    type: 'error',
+                    icon: 'error',
+                }).then(function() {
+                    window.location = 'supplier.php';
+                });
+            </script>
+        ";
+    }
+}
+// Tambah Supplier End
+// Edit Supplier
+if (isset($_POST['submitEditSupplier'])) {
+    $hasil = updateSupplier($_POST);
+    if ($hasil>0) {
+        echo "
+            <script>
+                swal({
+                    title: 'Sukses',
+                    text: 'Data Berhasil Di Edit',
+                    type: 'success',
+                    icon: 'success',
+                }).then(function() {
+                    window.location = 'Supplier.php';
+                });
+            </script>
+        ";
+    } else {
+        echo "
+            <script>
+                swal({
+                    title: 'Gagal',
+                    text: 'Data Gagal Di Edit',
+                    type: 'error',
+                    icon: 'error',
+                }).then(function() {
+                    window.location = 'Supplier.php';
+                });
+            </script>
+        ";
+    }
+}
+
+// Edit Supplier End
+// Hapus Supplier
+if (isset($_GET['hapusSupplier'])) {
+    $id = $_GET['hapusSupplier'];
+    $hasil = hapusSupplier($id);
+    if ($hasil>0) {
+        echo "
+                    <script>
+                        swal({
+                            title: 'Sukses',
+                            text: 'Data Berhasil Di Hapus',
+                            type: 'success',
+                            icon: 'success',
+                        }).then(function() {
+                            window.location = 'Supplier.php';
+                        });
+                    </script>
+                    ";
+    } else {
+        echo "
+                    <script>
+                        swal({
+                            title: 'Gagal',
+                            text: 'Data Gagal Di Hapus',
+                            type: 'error',
+                            icon: 'error',
+                        }).then(function() {
+                            window.location = 'Supplier.php';
+                        });
+                    </script>
+                    ";
+    }
+}
+// Hapus Supplier End
 
 ?>
 <!-- CONTENT-START -->
+<?php if (!isset($_GET['editSupplier'])) :?>
 <h3>Dashboard</h3>
 <!-- Supplier -->
 <div class="row">
@@ -38,7 +137,7 @@ require('logic/supplier-act.php');
 								<td><?= $ds['address'] ?></td>
 								<td class="text-center">
 									<?php if ($ds['id']!=0) :?>
-									<a href="?editSupplier=<?= $ds['id']?>" class="btn btn-warning disabled">
+									<a href="?editSupplier=<?= $ds['id']?>" class="btn btn-warning">
 										<span class="text">Edit</span>
 									</a>
 									<a href="?hapusSupplier=<?= $ds['id']?>" class="btn btn-danger"
@@ -90,6 +189,42 @@ require('logic/supplier-act.php');
 	</div>
 </div>
 <!-- Modal Tambah Supplier End -->
+<!-- Edit Supplier -->
+<?php elseif (isset($_GET['editSupplier'])) :?>
+<?php
+    $idEditSupplier = $_GET['editSupplier'];
+    $getSupplier = getSupplier($idEditSupplier);
+?>
+<h3>Edit Supplier</h3>
+<div class="row">
+	<div class="col">
+		<div class="card w-50 shadow-sm">
+			<div class="modal-body">
+				<form action="" method="post">
+					<input type="hidden" name="idSupplier" value="<?=$getSupplier['id']?>">
+					<div class="form-group">
+						<div class="form-group">
+							<label for="namaSupplier" class="col-form-label">Nama Supplier</label>
+							<input type="text" class="form-control" name="namaSupplier" id="namaSupplier"
+								value="<?= $getSupplier['name']?>" autocomplete="off" required>
+						</div>
+						<div class="form-group">
+							<label for="alamatSupplier" class="col-form-label">Alamat Supplier</label>
+							<input type="text" class="form-control" name="alamatSupplier" id="alamatSupplier"
+								value="<?= $getSupplier['address']?>" autocomplete="off" required>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+						<button type="submit" name="submitEditSupplier" class="btn btn-primary">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<?php endif; ?>
+<!-- Edit Supplier End -->
 <!-- CONTENT-END -->
 <?php
 require('footer.php');

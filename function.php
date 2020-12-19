@@ -42,14 +42,16 @@
     {
         global $conn;
 
-        $result = mysqli_query($conn, "SELECT * FROM users WHERE username = '$username'") or die("Error Check Login : ".mysqli_error($conn));
+        $result = mysqli_query($conn, "SELECT a.id,a.password,a.username,b.name as role FROM users a INNER JOIN roles b ON a.role_id = b.id
+
+WHERE a.username = '$username'") or die("Error Check Login : ".mysqli_error($conn));
         if (mysqli_num_rows($result) == 1) {
             $row = mysqli_fetch_assoc($result);
             if (password_verify($password, $row['password'])) {
                 $return = [];
                 $return['id'] = $row['id'];
                 $return['username'] = $row['username'];
-                $return['role'] = $row['role_id'];
+                $return['role'] = $row['role'];
                 return $return;
             }
         }

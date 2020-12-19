@@ -1,8 +1,143 @@
 <?php
+session_start();
+if ($_SESSION['role']!='admin') {
+    header("Location: penjualan.php");
+}
+
 require('header.php');
 require('logic/user-act.php');
+
+
+// Tambah User
+if (isset($_POST['submit'])) {
+    if (checkUsername($_POST['username'])==true) {
+        $hasil = tambahUser($_POST);
+        if ($hasil>0) {
+            echo "
+                <script>
+                    swal({
+                        title: 'Sukses',
+                        text: 'Data Berhasil Di Tambahkan',
+                        type: 'success',
+                        icon: 'success',
+                    }).then(function() {
+                        window.location = 'user.php';
+                    });
+                </script>
+            ";
+        } else {
+            echo "
+                <script>
+                    swal({
+                        title: 'Gagal',
+                        text: 'Data Gagal Di Tambahkan',
+                        type: 'error',
+                        icon: 'error',
+                    }).then(function() {
+                        window.location = 'user.php';
+                    });
+                </script>
+            ";
+        }
+    } else {
+        echo "
+                <script>
+                    swal({
+                        title: 'Gagal',
+                        text: 'Username telah di gunakan',
+                        type: 'error',
+                        icon: 'error',
+                    });
+                </script>
+            ";
+    }
+}
+// Tambah User End
+// Tambah User End
+// Edit User
+if (isset($_POST['submitEditUser'])) {
+    $hasil = updateUser($_POST);
+    if ($hasil>0) {
+        echo "
+            <script>
+                swal({
+                    title: 'Sukses',
+                    text: 'Data Berhasil Di Edit',
+                    type: 'success',
+                    icon: 'success',
+                }).then(function() {
+                    window.location = 'user.php';
+                });
+            </script>
+        ";
+    } elseif ($hasil==-1) {
+        echo "
+            <script>
+                swal({
+                    title: 'Gagal',
+                    text: 'Username telah digunakan',
+                    type: 'error',
+                    icon: 'error',
+                }).then(function() {
+                    window.location = 'user.php';
+                });
+            </script>
+        ";
+    } else {
+        echo "
+            <script>
+                swal({
+                    title: 'Gagal',
+                    text: 'Data Gagal Di Edit',
+                    type: 'error',
+                    icon: 'error',
+                }).then(function() {
+                    window.location = 'user.php';
+                });
+            </script>
+        ";
+    }
+}
+// Edit User End
+
+
+// Hapus user
+    if (isset($_GET['hapus'])) {
+        $id = $_GET['hapus'];
+        $hasil = hapus($id);
+        if ($hasil>0) {
+            echo "
+                        <script>
+                            swal({
+                                title: 'Sukses',
+                                text: 'Data Berhasil Di Hapus',
+                                type: 'success',
+                                icon: 'success',
+                            }).then(function() {
+                                window.location = 'user.php';
+                            });
+                        </script>
+                        ";
+        } else {
+            echo "
+                        <script>
+                            swal({
+                                title: 'Gagal',
+                                text: 'Data Gagal Di Hapus',
+                                type: 'error',
+                                icon: 'error',
+                            }).then(function() {
+                                window.location = 'user.php';
+                            });
+                        </script>
+                        ";
+        }
+    }
+// Hapus user END
+
 ?>
 <!-- CONTENT-START -->
+<?php if (!isset($_GET['editUser'])) :?>
 <h3>Dashboard</h3>
 <div class="row">
     <div class="col">
@@ -36,7 +171,7 @@ require('logic/user-act.php');
                                 <td><?= $ud['username'] ?></td>
                                 <td><?= $ud['roles'] ?></td>
                                 <td class="text-center">
-                                    <a href="?editUser=<?= $ud['id']?>" class="btn btn-warning disabled">
+                                    <a href="?editUser=<?= $ud['id']?>" class="btn btn-warning">
                                         <span class="text">Edit</span>
                                     </a>
                                     <a href="?hapus=<?= $ud['id']?>"
@@ -69,7 +204,7 @@ require('logic/user-act.php');
                 <form action="" method="post">
                     <div class="form-group">
                         <label for="username" class="col-form-label">Username</label>
-                        <input type="text" class="form-control" name="username" id="username">
+                        <input type="text" class="form-control" name="username" id="username" autocomplete="off">
                     </div>
                     <div class="form-group mb-1">
                         <label for="password" class="col-form-label">Password</label>
@@ -97,7 +232,49 @@ require('logic/user-act.php');
     </div>
 </div>
 <!-- Modal tambah user END-->
+<?php elseif (isset($_GET['editUser'])):?>
+<?php
+    $idEditUser = $_GET['editUser'];
+    $getUser = getUser($idEditUser);
+?>
+<h3>Edit User</h3>
+<div class="row">
+    <div class="col">
+        <div class="card w-50 shadow-sm">
+            <div class="modal-body">
+                <form action="" method="post">
+                    <input type="hidden" name="idUser" value="<?=$getUser['id']?>">
+                    <div class="form-group">
+                        <label for="username" class="col-form-label">Username</label>
+                        <input type="text" class="form-control" name="username" id="username" autocomplete="off"
+                            value=" <?= $getUser['username'] ?>">
+                    </div>
+                    <div class="form-group mb-1">
+                        <label for="password" class="col-form-label">Password Baru</label>
+                        <input type="password" class="form-control form-password" name="password" id="password">
+                    </div>
+                    <div class="form-check float-right">
+                        <input class="form-check-input form-checkbox" type="checkbox" value="" id="defaultCheck1">
+                        <label class="form-check-label" for="defaultCheck1">show password </label>
+                    </div>
+                    <div class="form-group mt-4">
+                        <label for="roles" class="col-form-label">Role User</label>
+                        <select class="form-control" id="roles" name="roles" required>
+                            <option value="1" <?= ($getUser['role']=='admin') ? 'selected' : '' ?>>Admin</option>
+                            <option value="2" <?= ($getUser['role']=='operator') ? 'selected' : '' ?>>Operator</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" name="submitEditUser" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- CONTENT-END -->
+<?php endif; ?>
 <?php
 require('footer.php');
 ?>

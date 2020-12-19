@@ -153,7 +153,7 @@ if (isset($_GET['hapus'])) {
 						<div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total
 							Handphone</div>
 						<div class="h5 mb-0 font-weight-bold text-gray-800">
-							<?= $dataJumlahLaptopSecond['total'] ?></div>
+							<?= $dataJumlahHandphone['total'] ?></div>
 					</div>
 					<div class="col-auto">
 						<i class="fas fa-mobile-alt fa-2x text-gray-300"></i>
@@ -171,7 +171,7 @@ if (isset($_GET['hapus'])) {
 						<div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total
 							Aksesoris</div>
 						<div class="h5 mb-0 font-weight-bold text-gray-800">
-							<?= $dataJumlahMacbookSecond['total'] ?></div>
+							<?= $dataJumlahAksesoris['total'] ?></div>
 					</div>
 					<div class="col-auto">
 						<i class="fas fa-headset fa-2x text-gray-300"></i>
@@ -208,7 +208,11 @@ if (isset($_GET['hapus'])) {
 								<th>Stock</th>
 								<th>Kategori</th>
 								<th>Supplier</th>
-								<th>Modal</th>
+								<!-- Admin -->
+                                    <?php if ($_SESSION['role']=='admin') :?>
+									<th>Modal</th>
+									<?php endif ?>
+                                <!-- Admin End -->
 								<th>Opsi</th>
 							</tr>
 						</thead>
@@ -220,7 +224,11 @@ if (isset($_GET['hapus'])) {
 								<td><?= $db['stock'] ?></td>
 								<td><?= $db['kategori'] ?></td>
 								<td><?= $db['supplier'] ?></td>
-								<td><?= "Rp ".number_format($db['modal']) ?></td>
+								<!-- Admin -->
+                                    <?php if ($_SESSION['role']=='admin') :?>
+										<td><?= "Rp ".number_format($db['modal']) ?></td>
+									<?php endif ?>
+                                <!-- Admin End -->
 								<td class="text-center">
 									<a href="?editBarang=<?= $db['id']?>" class="btn btn-warning">
 										<span class="text">Edit</span>
@@ -261,7 +269,8 @@ if (isset($_GET['hapus'])) {
 					</div>
 					<div class="form-group">
 						<label for="namaBarang" class="col-form-label">Nama Barang</label>
-						<input type="text" class="form-control" name="namaBarang" id="namaBarang" autocomplete="off" required>
+						<input type="text" class="form-control" name="namaBarang" id="namaBarang" autocomplete="off"
+							required>
 					</div>
 					<div class="form-row">
 						<div class="form-group col-6">
@@ -291,7 +300,8 @@ if (isset($_GET['hapus'])) {
 						<div class="form-group col-8">
 							<label for="hargaBarang" class="col-form-label">Harga Modal /
 								pcs</label>
-							<input type="text" class="form-control" name="hargaModal" id="hargaBarang" autocomplete="off" required>
+							<input type="text" class="form-control" name="hargaModal" id="hargaBarang"
+								autocomplete="off" required>
 						</div>
 						<div class="form-group col-4">
 							<label for="jumlahBarang" class="col-form-label">Jumlah
@@ -316,60 +326,62 @@ if (isset($_GET['hapus'])) {
     $getBarang = getBarang($idEditBarang);
 ?>
 <h3>Edit Barang</h3>
-	<div class="row justify-content-center">
-        <div class="col">
-            <div class="card w-50 shadow-sm">
-                <div class="card-body">
-                    <form action="" method="post">
-                         <div class="form-group">
-                            <label for="namaBarang" class="col-form-label">Nama Barang</label>
-                            <input type="hidden" name="idBarang" value="<?=$getBarang['id']?>">
-                            <input type="text" value="<?=$getBarang['name']?>" class="form-control" name="namaBarang" id="namaBarang">
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-6">
-                                <label for="kategoriBarang" class="col-form-label">Kategori Barang</label>
-                                <select class="form-control" id="kategoriBarang" name="kategoriBarang" required>
-                                    <?php foreach ($dataKategori as $dk) :?>
-                                    <option value="<?=$dk['id']?>" <?php if ($dk['id']==$getBarang['category_id']) {
+<div class="row justify-content-center">
+	<div class="col">
+		<div class="card w-50 shadow-sm">
+			<div class="card-body">
+				<form action="" method="post">
+					<div class="form-group">
+						<label for="namaBarang" class="col-form-label">Nama Barang</label>
+						<input type="hidden" name="idBarang" value="<?=$getBarang['id']?>">
+						<input type="text" value="<?=$getBarang['name']?>" class="form-control" name="namaBarang"
+							id="namaBarang">
+					</div>
+					<div class="form-row">
+						<div class="form-group col-6">
+							<label for="kategoriBarang" class="col-form-label">Kategori Barang</label>
+							<select class="form-control" id="kategoriBarang" name="kategoriBarang" required>
+								<?php foreach ($dataKategori as $dk) :?>
+								<option value="<?=$dk['id']?>" <?php if ($dk['id']==$getBarang['category_id']) {
     echo "selected";
 } ?>><?= $dk['name'] ?></option>
-                                    <?php endforeach ?>
-                                </select>
-                            </div>
-                            <div class="form-group col-6">
-                                <label for="supplierBarang" class="col-form-label">Supplier Barang</label>
-                                <select class="form-control" id="supplierBarang" name="supplierBarang" required>
-                                    <option value="" disabled selected hidden>Pilih Supplier Barang ...</option>
-                                    <?php foreach ($dataSupplier as $ds) :?>
-                                    <option value="<?=$ds['id']?>" <?php if ($ds['id']==$getBarang['supplier_id']) {
+								<?php endforeach ?>
+							</select>
+						</div>
+						<div class="form-group col-6">
+							<label for="supplierBarang" class="col-form-label">Supplier Barang</label>
+							<select class="form-control" id="supplierBarang" name="supplierBarang" required>
+								<option value="" disabled selected hidden>Pilih Supplier Barang ...</option>
+								<?php foreach ($dataSupplier as $ds) :?>
+								<option value="<?=$ds['id']?>" <?php if ($ds['id']==$getBarang['supplier_id']) {
     echo "selected";
-}?>
-><?= $ds['name'] ?></option>
-                                    <?php endforeach ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-8">
-                                 <label for="hargaBarang" class="col-form-label">Harga Modal / pcs</label>
-                                 <input type="text" class="form-control" name="hargaModal" id="hargaBarang" value="<?=$getBarang['capital_price']?>">
-                            </div>
-                            <div class="form-group col-4">
-                                 <label for="jumlahBarang" class="col-form-label">Jumlah Barang</label>
-                                 <input type="number" class="form-control" name="jumlahBarang" id="jumlahBarang" value="<?=$getBarang['stock']?>">
-                            </div>                
-                        </div>
-                        <div class="modal-footer mt-4">
-                            <a href="penjualan.php"><button type="button" class="btn btn-secondary">Cancel</button></a>
-                            <button type="submit" name="submitEditBarang" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+}?>><?= $ds['name'] ?></option>
+								<?php endforeach ?>
+							</select>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-group col-8">
+							<label for="hargaBarang" class="col-form-label">Harga Modal / pcs</label>
+							<input type="text" class="form-control" name="hargaModal" id="hargaBarang"
+								value="<?=$getBarang['capital_price']?>">
+						</div>
+						<div class="form-group col-4">
+							<label for="jumlahBarang" class="col-form-label">Jumlah Barang</label>
+							<input type="number" class="form-control" name="jumlahBarang" id="jumlahBarang"
+								value="<?=$getBarang['stock']?>">
+						</div>
+					</div>
+					<div class="modal-footer mt-4">
+						<a href="penjualan.php"><button type="button" class="btn btn-secondary">Cancel</button></a>
+						<button type="submit" name="submitEditBarang" class="btn btn-primary">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
-	<?php endif; ?>
+</div>
+<?php endif; ?>
 <!-- CONTENT-END -->
 <?php
 require('footer.php');

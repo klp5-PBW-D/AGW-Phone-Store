@@ -42,15 +42,6 @@ session_start();
 
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow">
-                    <a class="dropdown-item disabled" href="#">
-                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                        Detail Profile
-                    </a>
-                    <a class="dropdown-item disabled" href="#">
-                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                        Ganti Password
-                    </a>
-                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="../logout.php">
                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                         Logout
@@ -63,15 +54,19 @@ session_start();
         <div class="row">
             <nav class="col-md-2 d-none d-md-block sidebar bg-blue">
                 <div class="sidebar-sticky">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link <?= ($baseName=='index') ? 'active' : '' ?>" href="index.php">
-                                <i class="fas fa-home"></i>
-                                Dashboard <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="divider"></div>
+                    <!-- Admin -->
+                        <?php if ($_SESSION['role']=='admin') :?>
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link <?= ($baseName=='index') ? 'active' : '' ?>" href="index.php">
+                                        <i class="fas fa-home"></i>
+                                        Dashboard <span class="sr-only">(current)</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        <div class="divider"></div>
+                    <?php endif ?>
+                    <!-- Admin End -->
                     <h6 class="sidebar-content-header">
                         Penjualan
                     </h6>
@@ -103,6 +98,8 @@ session_start();
                                 <span>Data Supplier</span></a>
                         </li>
                     </ul>
+                    <!-- Admin -->
+                        <?php if ($_SESSION['role']=='admin') :?>
                     <div class="divider"></div>
                     <h6 class="sidebar-content-header">
                         User
@@ -114,6 +111,8 @@ session_start();
                                 <span>Data User</span></a>
                         </li>
                     </ul>
+                     <?php endif ?>
+                    <!-- Admin End -->
                 </div>
             </nav>
             <div class="col-md-9 ml-sm-auto col-lg-10 px-4 content">

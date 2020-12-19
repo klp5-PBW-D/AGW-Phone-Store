@@ -15,23 +15,24 @@ $jumlahModal = query("SELECT
                     ORDER BY
                         id;")[0];
 
-// Jumlah Laptop Second
-$dataJumlahLaptopSecond = query("SELECT
-                                    COUNT(*) AS total
-                                FROM
-                                    products a
-                                    INNER JOIN categories b ON a.category_id = b.id 
-                                WHERE
-                                    b.NAME = 'Laptop Second' AND a.stock>0;")[0];
+// Jumlah Handphone
+$dataJumlahHandphone = query("SELECT
+                                SUM(a.stock) AS total 
+                            FROM
+                                products a
+                                INNER JOIN categories b ON a.category_id = b.id 
+                            WHERE
+                                b.NAME = 'Handphone' 
+                                AND a.stock > 0;")[0];
 
-// Jumlah Macbook Second
-$dataJumlahMacbookSecond = query("SELECT
-                                    COUNT(*) AS total
+// Jumlah Aksesoris
+$dataJumlahAksesoris = query("SELECT
+                                    SUM(a.stock) AS total
                                 FROM
                                     products a
                                     INNER JOIN categories b ON a.category_id = b.id 
                                 WHERE
-                                    b.name = 'Macbook Second' AND a.stock>0;")[0];
+                                    b.name = 'Aksesoris' AND a.stock>0;")[0];
 
 // Data Barang
 $dataBarang = query("SELECT

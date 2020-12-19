@@ -64,7 +64,6 @@ if (isset($_POST['submitEditKategori'])) {
         ";
     }
 }
-
 // Edit Kategori End
 // Hapus Kategori
 if (isset($_GET['hapusKategori'])) {
@@ -172,7 +171,8 @@ if (isset($_GET['hapusKategori'])) {
 					<div class="form-group">
 						<div class="form-group">
 							<label for="namaKategori" class="col-form-label">Nama Kategori</label>
-							<input type="text" class="form-control" name="namaKategori" id="namaKategori" autocomplete="off" required>
+							<input type="text" class="form-control" name="namaKategori" id="namaKategori"
+								autocomplete="off" required>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -193,14 +193,15 @@ if (isset($_GET['hapusKategori'])) {
 <h3>Edit Kategori</h3>
 <div class="row">
 	<div class="col">
-		 <div class="card w-50 shadow-sm">
-		<div class="modal-body">
+		<div class="card w-50 shadow-sm">
+			<div class="modal-body">
 				<form action="" method="post">
 					<input type="hidden" name="idKategori" value="<?=$getKategori['id']?>">
 					<div class="form-group">
 						<div class="form-group">
 							<label for="namaKategori" class="col-form-label">Nama Kategori</label>
-							<input type="text" class="form-control" name="namaKategori" id="namaKategori" value="<?= $getKategori['name']?>" autocomplete="off" required>
+							<input type="text" class="form-control" name="namaKategori" id="namaKategori"
+								value="<?= $getKategori['name']?>" autocomplete="off" required>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -209,7 +210,7 @@ if (isset($_GET['hapusKategori'])) {
 					</div>
 				</form>
 			</div>
-</div>
+		</div>
 	</div>
 </div>
 <?php endif; ?>

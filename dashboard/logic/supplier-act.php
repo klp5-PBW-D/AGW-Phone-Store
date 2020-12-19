@@ -15,6 +15,37 @@ function tambahSupplier($data)
     return $hasil;
 }
 
+function getSupplier($idSupplier)
+{
+    $data=query("SELECT
+                    id,
+                    name,
+                    address
+                FROM
+                    suppliers
+                WHERE
+                    id = $idSupplier
+                ")[0];
+    return $data;
+}
+
+function updateSupplier($data)
+{
+    global $conn;
+    $idSupplier = htmlspecialchars($data['idSupplier']);
+    $namaSupplier = htmlspecialchars($data['namaSupplier']);
+    $alamatSupplier = htmlspecialchars($data['alamatSupplier']);
+    $query="UPDATE suppliers 
+            SET name = '$namaSupplier',
+            address = '$alamatSupplier'
+            WHERE
+                id = $idSupplier;";
+    $result = mysqli_query($conn, $query) or var_dump(mysqli_error($conn));
+    $hasil = mysqli_affected_rows($conn);
+    return $hasil;
+}
+
+
 function hapusSupplier($id)
 {
     global $conn;

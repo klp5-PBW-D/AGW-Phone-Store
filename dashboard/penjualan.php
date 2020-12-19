@@ -129,7 +129,11 @@ if (isset($_POST['submitEdit'])) {
                                 <th>Harga Satuan</th>
                                 <th>Qty</th>
                                 <th>Total</th>
-                                <th>Laba</th>
+                                <!-- Admin -->
+                                    <?php if ($_SESSION['role']=='admin') :?>
+                                        <th>Laba</th>
+                                    <?php endif ?>
+                                <!-- Admin End -->
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -142,7 +146,11 @@ if (isset($_POST['submitEdit'])) {
                                 <td><?= "Rp ".number_format($dl['each_price']) ?></td>
                                 <td><?= $dl['quantity'] ?></td>
                                 <td><?= "Rp ".number_format($dl['total']) ?></td>
-                                <td><?= "Rp ".number_format($dl['profit']) ?></td>
+                               <!-- Admin -->
+                                    <?php if ($_SESSION['role']=='admin') :?>
+                                        <td><?= "Rp ".number_format($dl['profit']) ?></td>
+                                    <?php endif ?>
+                                <!-- Admin End -->
                                 <td class="text-center">
                                     <a href="?edit=<?= $dl['id']?>" class="btn btn-warning">
                                         <span class="text">Edit</span>
@@ -208,8 +216,8 @@ if (isset($_POST['submitEdit'])) {
                                     <label for="hargaBarang" class="mt-2">Harga / pcs</label>
                                 </div>
                                 <div class="col-8">
-                                    <input type="text" class="form-control" name="hargaBarang" id="hargaBarang" autocomplete="off"
-                                        required>
+                                    <input type="text" class="form-control" name="hargaBarang" id="hargaBarang"
+                                        autocomplete="off" required>
                                 </div>
                             </div>
                         </div>

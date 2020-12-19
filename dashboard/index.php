@@ -1,6 +1,15 @@
 <?php
+
 require('header.php');
+if ($_SESSION['role']!='admin') {
+    echo "
+    <script> location.replace('penjualan.php') </script>
+    ";
+}
+
 require('logic/index-act.php');
+
+
 ?>
 <!-- CONTENT-START -->
 <h3>Dashboard</h3>
